@@ -2,11 +2,14 @@
 
 <p id="demo">hey</p>
 
-<!-- <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.min.js"></script> -->
+<button type="button" name="button">Set Location</button>
+
 <script>
 var x = document.getElementById("demo");
 
 function getLocation() {
+
+
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(showPosition);
     } else {
@@ -27,7 +30,19 @@ function success(pos) {
   // crd.longitude = crd.longitude.toFixed(4);
   console.log(crd)
 
-  if (target.latitude.toFixed(3) != crd.latitude.toFixed(3) && target.longitude.toFixed(3) != crd.longitude.toFixed(3)) {
+  target = {
+    latitude : crd.latitude.toFixed(3),
+    longitude: crd.longitude.toFixed(3)
+  };
+
+  options = {
+    enableHighAccuracy: true,
+    timeout: 50000,
+    maximumAge: 0
+  };
+
+  if (target.latitude != crd.latitude.toFixed(3) && target.longitude != crd.longitude.toFixed(3)) {
+
     alert('Congratulations, you left the target');
     navigator.geolocation.clearWatch(id);
   }
@@ -38,21 +53,12 @@ function error(err) {
   alert('didnt work');
 }
 
-target = {
-  latitude : 41.878,
-  longitude: -87.655
-};
-
-options = {
-  enableHighAccuracy: true,
-  timeout: 50000,
-  maximumAge: 0
-};
-
 $(document).ready(function() {
 
-  id = navigator.geolocation.watchPosition(success, error, options);
+    id = navigator.geolocation.watchPosition(success, error, options);
+
   getLocation()
+
 })
 
 </script>
