@@ -27,7 +27,7 @@ function success(pos) {
   // crd.longitude = crd.longitude.toFixed(4);
   console.log(crd)
 
-  if (target.latitude.toFixed(2) == crd.latitude.toFixed(2) && target.longitude.toFixed(2) == crd.longitude.toFixed(2)) {
+  if (41.876 == crd.latitude.toFixed(3) && -87.653 == crd.longitude.toFixed(3)) {
     alert('Congratulations, you reached the target');
     navigator.geolocation.clearWatch(id);
   }
@@ -39,8 +39,8 @@ function error(err) {
 }
 
 target = {
-  latitude : 41.87,
-  longitude: -87.65
+  latitude : 41.876,
+  longitude: -87.653
 };
 
 options = {
