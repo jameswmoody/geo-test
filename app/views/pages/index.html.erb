@@ -4,31 +4,37 @@
 
 <!-- <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.min.js"></script> -->
 <script>
+
+var target
 var x = document.getElementById("demo");
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         navigator.geolocation.watchPosition(showPosition);
+//     } else {
+//         x.innerHTML = "Geolocation is not supported by this browser.";
+//     }
+// }
 
-function showPosition(position) {
+function storePosition(position) {
     x.innerHTML = "Latitude: " + position.coords.latitude +
     "<br>Longitude: " + position.coords.longitude;
+    target = {
+      latitude : position.coords.latitude,
+      longitude: position.coords.longitude
+    };
+    console.log(target)
 }
 
-var id, target, options;
+var id, options;
 
 function success(pos) {
   var crd = pos.coords;
   // crd.latitude = crd.latitude.toFixed(4);
   // crd.longitude = crd.longitude.toFixed(4);
-  console.log(crd)
 
-  if (target.latitude.toFixed(3) != crd.latitude.toFixed(3) && target.longitude.toFixed(3) != crd.longitude.toFixed(3)) {
-    alert('Congratulations, you left the target');
+  if (target.latitude.toFixed(3) != crd.latitude.toFixed(3) || target.longitude.toFixed(3) != crd.longitude.toFixed(3)) {
+    alert('Congratulations, you are at the target');
     navigator.geolocation.clearWatch(id);
   }
 }
@@ -38,10 +44,6 @@ function error(err) {
   alert('didnt work');
 }
 
-target = {
-  latitude : 41.873,
-  longitude: -87.674
-};
 
 options = {
   enableHighAccuracy: true,
@@ -50,9 +52,11 @@ options = {
 };
 
 $(document).ready(function() {
+  $('button').on('click', function (){
+    navigator.geolocation.getCurrentPosition(storePosition)
+    id = navigator.geolocation.watchPosition(success, error, options);
+  })
 
-  id = navigator.geolocation.watchPosition(success, error, options);
-  getLocation()
 })
 
 </script>
